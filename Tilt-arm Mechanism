@@ -1,0 +1,46 @@
+% Define Parameters
+L1 = 20;
+L2 = 20;
+L3 = 8;
+theta = sym("theta");
+
+% Ground
+O1x = 0; O1y = 0;
+O2x = L3; O2y = 0;
+
+% Plot The sketch
+subplot(1, 2, 1);
+plot(O1x, O1y, "^k")
+hold on
+plot(O2x ,O2y, "^k")
+plot([0 0], [0 L1], "b")
+plot([L3 L3], [0 L2], "b")
+plot([0 L3], [L1 L2], "r")
+xlim([-5 13])
+ylim([-10 40])
+hold off
+title("Front View Of Tilt Arm")
+axis equal
+axis off
+
+% Plot the Animation
+subplot(1, 2, 2);
+theta_plot = (0:0.1:1)*pi;
+
+link_arm = @(t) plot([0 L1*cos(t)], [0 L2*sin(t)], "b");
+
+plot(0, 0, 'ko', 'MarkerFaceColor', 'k');
+hold on
+title("Side View of Motion of Tilt Arm")
+plot(0, 0, 'ko', 'MarkerFaceColor', 'k');
+plot(L1*cos(theta_plot), L1*sin(theta_plot), 'r--')
+ylim([-10 20])
+
+axis equal
+axis off
+
+fanimator(link_arm, "AnimationRange", [0 pi])
+hold off
+
+
+playAnimation
