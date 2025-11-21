@@ -1,0 +1,58 @@
+clc; clear all; close all; 
+
+% Define Parameters
+
+Module = 5;
+N1_teeth = 20;
+N2_teeth = 10;
+R_depth = 15;
+
+R1 = Module * N1_teeth;
+R2 = Module * N2_teeth;
+D_center = R1 + R2;
+Gear_Ratio = N1_teeth / N2_teeth;
+theta = (0:0.001:1)*2*pi;
+
+% Gear radius Function (From GPT)
+
+gear_radius = @(R_base, N) R_base - R_depth/2 + R_depth * abs(sin(N * theta));
+
+% Gear 1
+r1 = gear_radius(R1, N1_teeth);
+
+x1_center = 0;
+y1_center = 0;
+
+% Gear 2
+r2 = gear_radius(R2, N2_teeth);
+
+x2_center = -D_center; 
+y2_center = 0;
+
+% Animation
+rotation_step = 0.04;
+
+for phi_1 = 0:rotation_step:(2*pi)
+    phi_2 = -phi_1 * Gear_Ratio;
+    x1 = r1 .* cos(theta + phi_1) + x1_center;
+    y1 = r1 .* sin(theta + phi_1) + y1_center;
+    x2 = r2 .* cos(theta + phi_2) + x2_center;
+    y2 = r2 .* sin(theta + phi_2) + y2_center;
+
+    clf;
+    
+    hold on;
+    fill(x1, y1, [0.4 0.6 0.8], 'edgecolor', 'k');
+    fill(x2, y2, [0.8 0.4 0.4], 'edgecolor', 'k');
+
+    plot(x1_center, y1_center, "ok");
+    plot(x2_center,y2_center, "ok");
+    
+    hold off;
+
+    axis equal;
+    axis off;
+    title("Gear And Pinion Simulation")
+    drawnow;
+end
+
