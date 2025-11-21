@@ -1,1 +1,2 @@
 # Machinery-Project-Thrust-vectoring-Mechanism
+This project, conducted as a part of 2103322 Mechanics of Machinery project, focused on designing and analysing the 2-DOF thrust vectoring control mechanism, which is based on the 2-DOF staged pan tilt mechanism. This model involves developing a kinematics model, simulation, and synthesizing the mechanism to ensure the desired motion and functional requirements.
