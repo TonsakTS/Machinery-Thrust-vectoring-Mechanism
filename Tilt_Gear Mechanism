@@ -1,0 +1,74 @@
+clc; clear all; close all;
+
+% Define Parameters
+
+module = 1.5;
+N1_teeth = 40;
+N2_teeth = 40;
+R_depth = 15;
+R_center = 10;
+
+shaft_angle = 90;
+Gear_Ratio = N1_teeth / N2_teeth;
+
+% Calculat of Geometry (From GPT)
+delta_1 = atand(N1_teeth / N2_teeth);
+delta_2 = atand(N2_teeth / N1_teeth);
+
+R1 = R_depth * sind(delta_1);
+R2 = R_depth * sind(delta_2);
+
+% Gear 1
+x1 = [0, R_depth, R_depth, 0];
+y1 = [0, R1, -R1, 0];
+fill(x1, y1, [0.4 0.6 0.8])
+hold on
+plot([0 R_depth + 2], [0 0], "-k", "LineWidth", 2)
+
+title("2D Section Veiw Of Bevel Gear")
+
+% Gear 2
+x2 = [0, R2, -R2, 0];
+y2 = [0, R_depth, R_depth, 0];
+fill(x2, y2, [0.8 0.4 0.4])
+plot([0 0], [0 R_depth + 2], "-k", "LineWidth", 2)
+axis equal
+axis off
+
+
+% Animation
+% Axis for Gear 1
+base_1 = plot([R_depth R_depth], [0, 0], 'b-', 'LineWidth', 2);
+tip_1 = plot(R_depth, 0, 'bo', 'MarkerFaceColor', 'b');
+
+% Axis for Gear 2
+base_2 = plot([0, 0], [R_depth, R_depth], 'r-', 'LineWidth', 2);
+tip_2 = plot(0, R_depth, 'ro', 'MarkerFaceColor', 'r');
+
+axis off
+
+% Animation (From GPT)
+
+angle_1 = 0;
+step = 0.05;
+loop = 1;
+
+while loop < 100
+    angle_1 = angle_1 + step;
+    angle_2 = -angle_1 *(N1_teeth /N2_teeth);
+
+    Rotate_1 = R1 * sin(angle_1);
+    Rotate_2 = R2 * sin(angle_2);
+    
+    set(base_1, 'YData', [0,Rotate_1]);
+    set(tip_1, 'YData', Rotate_1);
+    set(base_2, 'XData', [0, Rotate_2]);
+    set(tip_2, 'XData', Rotate_2);
+    
+    % Pause and refresh the plot
+    drawnow;
+
+    loop = loop +1;
+end
+
+hold off
